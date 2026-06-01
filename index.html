@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!--<title>🔐 FrameworkJS — Acesso Restrito</title>-->
+<title>Perla.pink</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background-color: #FFFAE1;
+    font-family: Roboto, -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    color: #333;
+    min-height: 100vh;
+  }
+  #vault {
+    position: fixed; inset: 0;
+    background: rgba(255, 250, 225, 0.98);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 99999;
+    transition: opacity 0.8s ease, visibility 0.8s ease;
+  }
+  #vault.unlocked { opacity: 0; visibility: hidden; pointer-events: none; }
+  .vault-box {
+    border: 2px dotted #333;
+    background: #FFFAE1;
+    padding: 40px;
+    max-width: 480px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 8px 8px 0px rgba(51,51,51,0.15);
+  }
+  .vault-box h2 { font-size: 28px; font-weight: 400; margin-bottom: 12px; }
+  .vault-box .subtitle { font-size: 14px; color: #666; margin-bottom: 28px; }
+  .vault-box input {
+    width: 100%; padding: 14px; font-size: 18px;
+    border: 1px dotted #333; background: transparent; color: #333;
+    font-family: inherit; text-align: center; letter-spacing: 4px;
+    outline: none; margin-bottom: 16px;
+  }
+  .vault-box input:focus { border: 2px solid #333; }
+  .vault-box button {
+    width: 100%; padding: 14px; font-size: 16px;
+    font-family: inherit; border: 1px dotted #333;
+    background: #333; color: #FFFAE1; cursor: pointer;
+  }
+  .vault-box button:hover { background: #555; }
+  .vault-box .error { margin-top: 12px; font-size: 13px; color: #c0392b; min-height: 20px; opacity: 0; transition: opacity 0.3s; }
+  .vault-box .error.show { opacity: 1; }
+  .vault-box .hint { margin-top: 20px; font-size: 12px; color: #888; font-style: italic; }
+  #content { display: none; }
+  #content.visible { display: block; animation: fadeIn 1s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+  .lock-icon { font-size: 48px; margin-bottom: 8px; }
+</style>
+<style>
+body {
+  background-color: #FFFAE1; /*#e8e6dc(claude's: https://github.com/Plasmmer/anthropic-skills/blob/main/skills/brand-guidelines/SKILL.md)*/
+}
+table, th, td {
+  border: 1px dotted #333;
+  border-collapse: collapse;
+}
+</style>
+<style>
+body { background-color: #FFFAE1; font-family: Roboto, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; color: #333; }
+table, th, td { border: 1px dotted #333; border-collapse: collapse; }
+td { padding: 12px; text-align: center; }
+h1 { text-align: center; font-weight: 400; font-size: 45px; }
+</style>
+</head>
+<body>
+<h1>Perla.pink</h1>
+<h2>Projetos que recomendamos:</h2>
+<ul>
+<li><a href="https://github.com/CoordinationsDAO/eternal-journalism" target="_blank">Eternal Journalism - armazenar matérias jornalísticas na blockchain, para mitigar risco de censura e apagamento</a></li>
+</ul>
+<hr/>
+<center><img height="350px" src="https://cdn.pensador.com/img/frase/be/rt/bertolt_brecht_primeiro_eles_vieram_para_levar_os_cigan_trf_nl3n31yw.jpg" alt="" title="" fallback="" /> <img height="350px" src="https://i.redd.it/na16y2g49ghe1.png" alt="" title="" fallback="" /></center>
+<hr/>
+<center><img height="350px" src="https://cdn.pensador.com/img/frase/ba/ra/barao_de_montesquieu_a_injustica_que_se_faz_a_um_e_uma_l62qldx.jpg" alt="" title="" fallback="" /></center>
+<hr/>
+<center><img height="350px" src="https://borea.com.br/wp-content/uploads/2024/12/2024120281477001734033449.jpg" alt="" title="" fallback="" /></center>
+<hr/>
+<center><img height="350px" src="https://preview.redd.it/guess-whos-next-v0-06j2x727vq7b1.jpg?auto=webp&s=19b0ef88ad9015b288160b390886296ad55b13b7" alt="" title="" fallback="" /></center>
+<hr/>
+<a href="https://www.instagram.com/https.perla.pink" target="_blank">Instagram (@https.perla.pink)</a>
+<blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="https://www.instagram.com/p/DY3AmtnpNg6/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style=" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:540px; min-width:326px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);"><div style="padding:16px;"> <a href="https://www.instagram.com/p/DY3AmtnpNg6/?utm_source=ig_embed&amp;utm_campaign=loading" style=" background:#FFFFFF; line-height:0; padding:0 0; text-align:center; text-decoration:none; width:100%;" target="_blank"> <div style=" display: flex; flex-direction: row; align-items: center;"> <div style="background-color: #F4F4F4; border-radius: 50%; flex-grow: 0; height: 40px; margin-right: 14px; width: 40px;"></div> <div style="display: flex; flex-direction: column; flex-grow: 1; justify-content: center;"> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; margin-bottom: 6px; width: 100px;"></div> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; width: 60px;"></div></div></div><div style="padding: 19% 0;"></div> <div style="display:block; height:50px; margin:0 auto 12px; width:50px;"><svg width="50px" height="50px" viewBox="0 0 60 60" version="1.1" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g transform="translate(-511.000000, -20.000000)" fill="#000000"><g><path d="M556.869,30.41 C554.814,30.41 553.148,32.076 553.148,34.131 C553.148,36.186 554.814,37.852 556.869,37.852 C558.924,37.852 560.59,36.186 560.59,34.131 C560.59,32.076 558.924,30.41 556.869,30.41 M541,60.657 C535.114,60.657 530.342,55.887 530.342,50 C530.342,44.114 535.114,39.342 541,39.342 C546.887,39.342 551.658,44.114 551.658,50 C551.658,55.887 546.887,60.657 541,60.657 M541,33.886 C532.1,33.886 524.886,41.1 524.886,50 C524.886,58.899 532.1,66.113 541,66.113 C549.9,66.113 557.115,58.899 557.115,50 C557.115,41.1 549.9,33.886 541,33.886 M565.378,62.101 C565.244,65.022 564.756,66.606 564.346,67.663 C563.803,69.06 563.154,70.057 562.106,71.106 C561.058,72.155 560.06,72.803 558.662,73.347 C557.607,73.757 556.021,74.244 553.102,74.378 C549.944,74.521 548.997,74.552 541,74.552 C533.003,74.552 532.056,74.521 528.898,74.378 C525.979,74.244 524.393,73.757 523.338,73.347 C521.94,72.803 520.942,72.155 519.894,71.106 C518.846,70.057 518.197,69.06 517.654,67.663 C517.244,66.606 516.755,65.022 516.623,62.101 C516.479,58.943 516.448,57.996 516.448,50 C516.448,42.003 516.479,41.056 516.623,37.899 C516.755,34.978 517.244,33.391 517.654,32.338 C518.197,30.938 518.846,29.942 519.894,28.894 C520.942,27.846 521.94,27.196 523.338,26.654 C524.393,26.244 525.979,25.756 528.898,25.623 C532.057,25.479 533.004,25.448 541,25.448 C548.997,25.448 549.943,25.479 553.102,25.623 C556.021,25.756 557.607,26.244 558.662,26.654 C560.06,27.196 561.058,27.846 562.106,28.894 C563.154,29.942 563.803,30.938 564.346,32.338 C564.756,33.391 565.244,34.978 565.378,37.899 C565.522,41.056 565.552,42.003 565.552,50 C565.552,57.996 565.522,58.943 565.378,62.101 M570.82,37.631 C570.674,34.438 570.167,32.258 569.425,30.349 C568.659,28.377 567.633,26.702 565.965,25.035 C564.297,23.368 562.623,22.342 560.652,21.575 C558.743,20.834 556.562,20.326 553.369,20.18 C550.169,20.033 549.148,20 541,20 C532.853,20 531.831,20.033 528.631,20.18 C525.438,20.326 523.257,20.834 521.349,21.575 C519.376,22.342 517.703,23.368 516.035,25.035 C514.368,26.702 513.342,28.377 512.574,30.349 C511.834,32.258 511.326,34.438 511.181,37.631 C511.035,40.831 511,41.851 511,50 C511,58.147 511.035,59.17 511.181,62.369 C511.326,65.562 511.834,67.743 512.574,69.651 C513.342,71.625 514.368,73.296 516.035,74.965 C517.703,76.634 519.376,77.658 521.349,78.425 C523.257,79.167 525.438,79.673 528.631,79.82 C531.831,79.965 532.853,80.001 541,80.001 C549.148,80.001 550.169,79.965 553.369,79.82 C556.562,79.673 558.743,79.167 560.652,78.425 C562.623,77.658 564.297,76.634 565.965,74.965 C567.633,73.296 568.659,71.625 569.425,69.651 C570.167,67.743 570.674,65.562 570.82,62.369 C570.966,59.17 571,58.147 571,50 C571,41.851 570.966,40.831 570.82,37.631"></path></g></g></g></svg></div><div style="padding-top: 8px;"> <div style=" color:#3897f0; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:550; line-height:18px;">View this post on Instagram</div></div><div style="padding: 12.5% 0;"></div> <div style="display: flex; flex-direction: row; margin-bottom: 14px; align-items: center;"><div> <div style="background-color: #F4F4F4; border-radius: 50%; height: 12.5px; width: 12.5px; transform: translateX(0px) translateY(7px);"></div> <div style="background-color: #F4F4F4; height: 12.5px; transform: rotate(-45deg) translateX(3px) translateY(1px); width: 12.5px; flex-grow: 0; margin-right: 14px; margin-left: 2px;"></div> <div style="background-color: #F4F4F4; border-radius: 50%; height: 12.5px; width: 12.5px; transform: translateX(9px) translateY(-18px);"></div></div><div style="margin-left: 8px;"> <div style=" background-color: #F4F4F4; border-radius: 50%; flex-grow: 0; height: 20px; width: 20px;"></div> <div style=" width: 0; height: 0; border-top: 2px solid transparent; border-left: 6px solid #f4f4f4; border-bottom: 2px solid transparent; transform: translateX(16px) translateY(-4px) rotate(30deg)"></div></div><div style="margin-left: auto;"> <div style=" width: 0px; border-top: 8px solid #F4F4F4; border-right: 8px solid transparent; transform: translateY(16px);"></div> <div style=" background-color: #F4F4F4; flex-grow: 0; height: 12px; width: 16px; transform: translateY(-4px);"></div> <div style=" width: 0; height: 0; border-top: 8px solid #F4F4F4; border-left: 8px solid transparent; transform: translateY(-4px) translateX(8px);"></div></div></div> <div style="display: flex; flex-direction: column; flex-grow: 1; justify-content: center; margin-bottom: 24px;"> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; margin-bottom: 6px; width: 224px;"></div> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; width: 144px;"></div></div></a><p style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; line-height:17px; margin-bottom:0; margin-top:8px; overflow:hidden; padding:8px 0 7px; text-align:center; text-overflow:ellipsis; white-space:nowrap;"><a href="https://www.instagram.com/p/DY3AmtnpNg6/?utm_source=ig_embed&amp;utm_campaign=loading" style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:normal; line-height:17px; text-decoration:none;" target="_blank">A post shared by Perla.pink (@https.perla.pink)</a></p></div></blockquote> <script async src="//www.instagram.com/embed.js"></script>
+<hr/>
+<a href="https://web.archive.org/web/20240221170513/https://partidovelho.org/" target="_blank">Partido Velho</a>
+<p>O Partido Velho <a href="https://web.archive.org/web/20240221170513/https://twitter.com/search?q=%40danimesqbr%20Partido%20Velho&amp;src=typed_query&amp;f=top" target="_blank">foi idealizado em Agosto de 2022</a> em um tweet por <a href="https://web.archive.org/web/20240221170513/https://linktr.ee/idaniella" target="_blank">Daniella Mesquita</a>.</p>
+<h2>A Perla.pink apoia (não financeiramente):</h2>
+<div style="background:#fff;padding:5px;display:inline-block;border-radius:5px"><a href="https://web.archive.org/web/20240221170513/https://www.despatologiza.com.br/" target="_blank"><img width="100px" src="https://web.archive.org/web/20240221170513im_/https://static.wixstatic.com/media/f07548_39ea82fd6c8547f9b14bc472ae463b95.png/v1/fill/w_350,h_120,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/f07548_39ea82fd6c8547f9b14bc472ae463b95.png"></a>(para que nunca mais digam "não ouçam ela porque ela é louca", "não sei como o MP dá ouvido ainda")</div>
+<div style="background:#000;padding:5px;display:inline-block;border-radius:5px"><a href="https://web.archive.org/web/20240221170513/https://intercept.com.br/" target="_blank"><img width="100px" src="https://web.archive.org/web/20240221170513im_/https://uploads.intercept.com.br/2023/03/mLrCV28g-Logo-Header.svg"></a></div>
+<div style="background:#0f0;padding:5px;display:inline-block;border-radius:5px"><a href="https://web.archive.org/web/20240221170513/https://jornalistaslivres.org/" target="_blank"><img width="100px" src="/web/20240221170513im_/https://partidovelho.org/img/jornalistaslivreslogo-1536x435.png"></a></div>
+<div style="background:#fff;padding:5px;display:inline-block;border-radius:5px"><a href="https://web.archive.org/web/20240221170513/https://www.abraji.org.br/" target="_blank"><img width="100px" src="https://web.archive.org/web/20240221170513im_/https://www.abraji.org.br/assets/header_logo-2835b8d11a658a980ab17238dcda2b05fb4f08848f1d1c38ecb6ae612bdb761e.png"></a></div>
+<div style="background:#fff;padding:5px;display:inline-block;border-radius:5px"><a href="https://web.archive.org/web/20240221170513/https://www.vero.org.br/" target="_blank"><img width="100px" src="https://web.archive.org/web/20240221170513im_/https://uploads-ssl.webflow.com/60244423a672eb5c9027e063/60c1ae4eb4c97ea2d02ea72e_logo-versao-basica-p-500.png"></a></div>
+<div style="background:#000;padding:5px;display:inline-block;border-radius:5px"><a href="https://web.archive.org/web/20240221170513/https://www.calabocajamorreu.com.br/" target="_blank"><img width="100px" src="https://web.archive.org/web/20240221170513im_/https://uploads-ssl.webflow.com/6052aa7fdd6e1c6746645bbe/624aaea03f4addf156cd7779_v1-p-500.png"></a></div>
+<div style="background:#fff;padding:5px;display:inline-block;border-radius:5px"><a href="https://web.archive.org/web/20240221170513/https://www.impulsa.voto/" target="_blank"><img width="100px" src="https://web.archive.org/web/20240221170513im_/https://www.impulsa.voto/wp-content/themes/impulsa/images/logo-naranja.png"></a></div>
+<div style="background:#fff;padding:5px;display:inline-block;border-radius:5px"><a href="https://web.archive.org/web/20240221170513/https://blacklivesmatter.com/" target="_blank"><img width="100px" src="https://web.archive.org/web/20240221170513im_/https://archive.is/1WKaM/69b7cb70c9fa25e27c696df0a348c12fa0a14def.webp"></a></div>
+<div style="background:#fcb900;padding:5px;display:inline-block;border-radius:5px"><a href="https://web.archive.org/web/20240221170513/https://psol50.org.br/" target="_blank"><img width="100px" src="https://web.archive.org/web/20240221170513im_/https://psol50.org.br/file/2021/06/PSOL_logo-header@3x.png"></a></div>
+<div style="background:#FFD400;padding:5px;display:inline-block;border-radius:5px"><a href="https://web.archive.org/web/20240221170513/https://apublica.org/" target="_blank"><img width="100px" src="https://web.archive.org/web/20240221170513im_/https://apublica.org/wp-content/themes/apublica3/assets/logo-black.small.png"></a></div>
+<div style="background:#6e51ee;padding:5px;display:inline-block;border-radius:5px"><a href="https://web.archive.org/web/20240221170513/https://catarinas.info/" target="_blank"><!--<img width="100px" src="./img/catarinas.svg"/>--><img width="100px" src="https://web.archive.org/web/20240221170513im_/https://archive.is/0Oh1m/09f6d5ed8e488c96f3917550bcd4d2b221dc6afc.jpg"></a></div>
+<div style="background:#fff;padding:5px;display:inline-block;border-radius:5px"><a href="https://web.archive.org/web/20240221170513/https://www.oxfam.org.br/" target="_blank"><img width="100px" src="https://web.archive.org/web/20240221170513im_/https://www.oxfam.org.br/wp-content/themes/oxfam/assets/img/oxfam-logo_1.png"></a></div>
+<div style="background:#fff;padding:5px;display:inline-block;border-radius:5px"><a href="https://web.archive.org/web/20240221170513/https://www.hrw.org/" target="_blank"><img width="100px" src="/web/20240221170513im_/https://partidovelho.org/img/hrw.svg"></a></div>
+<div style="background:#fff;padding:5px;display:inline-block;border-radius:5px"><a href="https://web.archive.org/web/20240221170513/https://archive.org/" target="_blank"><img width="100px" src="https://web.archive.org/web/20240221170513im_/https://www.vectorlogo.zone/logos/archive/archive-ar21.svg"></a></div>
+<div style="background:#fff;padding:5px;display:inline-block;border-radius:5px"><a href="https://web.archive.org/web/20240221170513/https://soudapaz.org/" target="_blank"><img width="100px" src="https://web.archive.org/web/20240221170513im_/https://soudapaz.org/wp-content/themes/sdp/img/logo-sou-da-paz.png"></a></div>
+<div style="background:#fff;padding:5px;display:inline-block;border-radius:5px"><a href="https://web.archive.org/web/20240221170513/https://bancodealimentos.org.br/" target="_blank"><img width="100px" src="https://web.archive.org/web/20240221170513im_/https://bancodealimentos.org.br/wp-content/uploads/2020/08/cropped-logo-1.jpg"></a></div>
+<div style="background:#000;padding:5px;display:inline-block;border-radius:5px"><a href="https://web.archive.org/web/20240221170513/https://minadehq.com.br/" target="_blank"><img width="100px" src="https://web.archive.org/web/20240221170513im_/https://minadehq.com.br/site/wp-content/uploads/2019/05/logo-rodape-semfundo-100.png"></a></div>
+<h2>Chamada importante:</h2>
+<p>Para <a href="https://web.archive.org/web/20240221170513/https://www.intercept.com.br/2023/06/01/juiza-censura-serie-do-intercept-sobre-lei-da-alienacao-parental/" target="_blank">prevenir futuras censuras</a> e garantir sua posteridade, arquivamos a versão brasileira do The Intercept (3,2&nbsp;GB) e sua versão internacional (27,7&nbsp;GB).</p>
+<ul>
+<li><a href="https://web.archive.org/web/20240221170513/https://www.intercept.com.br/2023/06/01/juiza-censura-serie-do-intercept-sobre-lei-da-alienacao-parental/" target="_blank">Juíza do Rio censura série do Intercept sobre Lei da Alienação Parental</a></li>
+</ul>
+<p>O mesmo arquivamento foi feito para outros sites publicados/espelhados no projeto "mirroring.eth", como a iniciativa <a href="https://web.archive.org/web/20240221170513/https://www.calabocajamorreu.com.br/" target="_blank">"Cala-Boca já morreu"</a>.</p>
+<a href="https://web.archive.org/web/20240221170513/https://ipfs.tech/" target="_blank"><img width="300px" alt="IPFS (Sistema InterPlanetário de Arquivos)" title="IPFS (Sistema InterPlanetário de Arquivos)" src="/web/20240221170513im_/https://partidovelho.org/img/ipfs-preserve.svg"></a>
+<p>Não pretendemos publicar os arquivos do The Intercept no momento não somente por questões financeiras e falta de peers, mas também por questões legais como copyright.</p>
+<p>Damos as boas-vindas e convidamos arquivistas e membros do The Intercept para uma possível colaboração em sua versão decentralizada usando a <a href="https://web.archive.org/web/20240221170513/https://ipfs.tech/" target="_blank">tecnologia IPFS (Sistema InterPlanetário de Arquivos)</a>.</p>
+<!--<table>
+<tbody>
+<tr>
+<td style="background:#ffc263"></td>
+<td><center><small>🦪</small></center></td>
+<td><center><small>💎</small></center></td>
+<td><center><small>😁</small></center></td>
+<td><center><small>🌹</small></center></td>
+</tr>
+<tr>
+<td style="background:#ffc263"></td>
+<td><center><img src="https://www.serebii.net/itemdex/sprites/wellspringmask.png" alt="Wellspring Mask" title="Wellspring Mask" fallback="https://static.wikia.nocookie.net/pokemon/images/1/1b/Wellspring_Mask_Sprite.png/revision/latest?cb=20230916031857" /></center></td>
+<td><center><img src="https://www.serebii.net/itemdex/sprites/cornerstonemask.png" alt="Cornerstone Mask" title="Cornerstone Mask" fallback="https://static.wikia.nocookie.net/pokemon/images/a/a3/Cornerstone_Mask_Sprite.png/revision/latest?cb=20230916031943" /></center></center></td>
+<td><center><img src="https://www.serebii.net/itemdex/sprites/hearthflamemask.png" alt="Hearthflame Mask" title="Hearthflame Mask" fallback="https://static.wikia.nocookie.net/pokemon/images/0/06/Hearthflame_Mask_Sprite.png/revision/latest?cb=20230916031922" /></center></td>
+<td><center><img src="https://www.serebii.net/itemdex/sprites/tealmask.png" alt="Teal Mask" title="Teal Mask" fallback="https://static.wikia.nocookie.net/pokemon/images/4/4c/Teal_Mask_Sprite.png/revision/latest?cb=20230916031828" /></center></td>
+</tr>
+<tr>
+<td style="background:#ffc263">🌹State:</td>
+<td><center>🐍🐉Transitory</center></td>
+<td><center>💎🐚Fixed</center></td>
+<td><center>🐍🐉Transitory</center></td>
+<td><center>💎🐚Fixed</center></td>
+</tr>
+<tr>
+<td style="background:#ffc263">⛎Zodiac:</td>
+<td><center>♏Scorpio</center></td>
+<td><center>♌Leo</center></td>
+<td><center>♈Aries</center></td>
+<td><center>♒Aquarius</center></td>
+</tr>
+<tr>
+<td style="background:#ffc263">💎Piperline Pokés:</td>
+<td><center><img src="https://www.serebii.net/pokedex-sv/icon/new/1024.png" alt="Terapagos" title="Terapagos" /></center></td>
+<td><center><img src="https://www.serebii.net/pokedex-sm/icon/718.png" alt="Zygarde" title="Zygarde" /></center></td>
+<td><center><img width="32px" src="https://cdn.modrinth.com/data/UnHRQ430/icon.png" alt="Rakurium" title="Rakurium" /></center></td>
+<td><center><img src="https://www.serebii.net/pokedex-sm/icon/384.png" alt="Rayquaza" title="Rayquaza" /></center></td>
+</tr>
+<tr>
+<td style="background:#ffc263">🌏Planet:</td>
+<td><center>🌕Venus</center></td>
+<td><center>☀️Sun</center></td>
+<td><center>🌑Mars</center></td>
+<td><center>🪐Saturn</center></td>
+</tr>
+<tr>
+<td style="background:#ffc263">🪩Artist:</td>
+<td><center><element title="Stefani Joanne Angelina Germanotta">Lady Gaga</element><br/><img width="150px" src="https://s2-marieclaire.glbimg.com/9a4Hhj2vyB90bt_X_Hmla5OqHjw=/0x0:4817x3211/984x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_51f0194726ca4cae994c33379977582d/internal_photos/bs/2025/l/9/AeDNdlRiAaBFQ1PtJUHw/gettyimages-2234210760.jpg" alt="Lady Gaga" title="Lady Gaga" /></center></td>
+<td><center><element title="Miley Ray Cyrus">Miley Cyrus</element><br/><img width="150px" src="https://www.billboard.com/wp-content/uploads/2023/02/Miley-Cyrus-pr-cr-BriannaCapozzi-2023-billboard-1548.jpg" alt="Miley Cyrus" title="Miley Cyrus" fallback="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRsW7eRGkPH-3Vm7_qRY9a_saKcyKS7T5dK0Q&s" fallback="https://www.geo.tv/assets/uploads/updates/2023-01-01/462248_3935645_updates.jpg" /></center></td>
+<td><center><element title="Peter Jozzeppi Burns">Pete Burns</element><br/><img width="150px" src="https://i.ytimg.com/vi/z4ZDS9PDE28/maxresdefault.jpg" alt="Pete Burns" title="Pete Burns" /></center></td>
+<td><center><element title="Kayleigh Rose Amstutz">Chappell Roan</element><br/><img width="150px" src="https://musicnonstop.uol.com.br/wp-content/uploads/2025/11/Chappell-Roan.webp" alt="Chappell Roan" title="Chappell Roan" /></center></td>
+</tr>
+<tr>
+<td style="background:#ffc263">🧩Neuro:</td>
+<td><center>Autism<br/><img width="100px" src="https://upload.wikimedia.org/wikipedia/commons/e/e8/The_Autistic_Pride_Flag.svg" alt="Autism pride flag" title="Autism pride flag" /></center></td>
+<td><center><element title="Autism+ADHD">AuDHD</element><br/><img width="100px" src="https://static.wikia.nocookie.net/prideflag/images/8/8f/AuDHD_Flag.png/revision/latest/scale-to-width-down/1200?cb=20250724025617" alt="AuDHD pride flag" title="AuDHD pride flag" /></center></td>
+<td><center>ADHD<br/><img width="100px" src="https://static.wikia.nocookie.net/prideflag/images/7/7d/ADHD_Flag.png/revision/latest/scale-to-width-down/1200?cb=20250622055938" alt="ADHD pride flag" title="ADHD pride flag" /></center></td>
+<td><center><element title="Bipolar Disorder type 2">BD-II</element><br/><img width="100px" src="https://i.redd.it/cafjs81ua3h61.png" alt="Bipolar disorder pride flag" title="Bipolar disorder pride flag" /></center></td>
+</tr>
+<tr>
+<td style="background:#ffc263">Piperline Emoji:</td>
+<td><center><img width="32px" src="https://em-content.zobj.net/source/animated-noto-color-emoji/427/turtle_1f422.gif" alt="🐢Turtle" title="🐢Turtle" /></center></td>
+<td><center><img width="32px" src="https://em-content.zobj.net/source/animated-noto-color-emoji/427/snake_1f40d.gif" alt="🐍Snake" title="🐍Snake" /></center></td>
+<td><center><img width="32px" src="https://em-content.zobj.net/source/animated-noto-color-emoji/427/gem-stone_1f48e.gif" alt="💎Diamond" title="💎Diamond" /></center></td>
+<td><center><img width="32px" src="https://em-content.zobj.net/source/animated-noto-color-emoji/427/dragon_1f409.gif" alt="🐉Dragon" title="🐉Dragon" /></center></td>
+</tr>
+</tbody>
+</table>-->
+<!-- DivTable.com -->
+<!--<div id="vault">
+  <div class="vault-box">
+    <button onclick="closeENpopup()" title="Close (and show only the non-encrypted content)">X</button>
+    <div class="lock-icon">🔐</div>
+    <h2>Página Encriptada</h2>
+    <p class="subtitle">O conteúdo desta página está cifrado.<br>Digite a chave para desbloquear.</p>
+    <input type="password" id="key-input" placeholder="••••••" autocomplete="off" />
+    <button onclick="unlock()">🔓 Desbloquear</button>
+    <div class="error" id="error">❌ Chave incorreta. O conteúdo permanece selado.</div>
+    <p class="hint">💡 Sem a chave certa, nada aqui pode ser lido.<br>Nem no código-fonte.</p>
+  </div>
+</div>-->
+
+<!--<div id="content"></div>-->
+<h1>----</h1>
+<!--<span>Orders of the planets and artists on this table are subject to change at any time.</span>-->
+<center style="box-sizing:border-box;display:block;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:-webkit-center;"><h1 style="color:rgba(0, 0, 0, 0.87);font-family:Roboto, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, &quot;Helvetica Neue&quot;, Arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;;font-size:45px;font-weight:400;box-sizing:border-box;display:block;letter-spacing:normal;line-height:1.066667;margin-block-end:0px;margin-block-start:0px;margin-bottom:0px;margin-inline-end:0px;margin-inline-start:0px;margin-left:0px;margin-right:0px;margin-top:0px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">✨ Page created in Fri May 29 02:20:21 2026 -0300.</h1>
+<h4 style="color:rgba(0, 0, 0, 0.87);font-family:Roboto, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, &quot;Helvetica Neue&quot;, Arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;;font-size:20px;font-weight:500;box-sizing:border-box;display:block;letter-spacing:0.4px;line-height:1.4;margin-block-end:0px;margin-block-start:0px;margin-bottom:0px;margin-inline-end:0px;margin-inline-start:0px;margin-left:0px;margin-right:0px;margin-top:0px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">🗘 Last update in Fri May 29 02:20:21 2026 -0300.</h4></center>
+
+<!--<script>
+// ===== PAYLOAD ENCRIPTADO (o conteúdo real NÃO está aqui em texto puro) =====
+const VAULT = {"salt": "SssxohHtwuJiCsL0lzDKIA==", "nonce": "x1uwqJc20TZJ0Rrj", "ciphertext": "jB1uvWvPR2LbR0QTVPI3EBfnnGyx2JqiwyQTlBDbrVkM8Ok4OgNOK7Xki1CK8pjyXGOXrFgqObkD1hf885dwpNZ/dpkUiSlsjiQQ6sVIGMPDcKhxgcVuSBuYf/8AFhCsK+5YTYA/6mv1Dlr8gIqXTAyRrguKYD3LGVDg+9ixo0rHeun7XSFwjD5awkZNuzZ7SLOKl1x6TWwuQzn1/rNKXTDdg2j4kJ7VcyuWpGES6Nn8YnEkNIoUxug9VdTSwJDQRcY4o6Jk7aAz7K5joj76qP3BWETdm5a6MJ+0dCBotLpaobaUMP+s79UqkKgO7+nffgJwgeNFji8TI/ibiC8bW3QpXMdPoMq4oHYjbKRJealx4+fGaBmmdraofMYtcLDDotyZGLHMFkVv50eSTdSQg7MxLqjW6SVP14ShRxhjdRjiFY8oB3hrbqvc0WE7/4lR5pKyKYOyswbylh0gffA7hqvLGREIqmyblNCq8yhfKX7rAaNHTVxLpOEeUdUiE0zDiODcJmKPk8Dja38fXRb1b9bxRxdkezzb4DHaQj7/Bbe9JlTMbkfN7ra0SNBLci8X2nAQSpPdbAODFEE7cVgoce6C2m2aXhlfg5GHHve1q2r9VNBEA8KHxukwzVzmedKzgKrbTAa260sPk4AkQji41qAx/hQNYkydSPOVe3RM0SB6ILJIlICt0ON+5o+2yJ4Z9owvlGIfo2Cuc7jaEnjOty74x7KaZQ9sbkpGrbiQX2q8f+i0hxYtMXQLCZDRMvMytRkZ++FmSC3/fAVeVfgFkvyN8m0VYlpcQsMdPQFY6K3Zf1MS+ewss7LKsM3cYou9xyszSML7AR4OUIVVWENOSqp8VPgA6mAIp8Wv2aQ2V4UmuF1Sx+2f7h3J/DfUIuAVKFU0j5ZhI1eZWegC6BIiiJxhb2haIQIqIyxIhQ=="};
+
+async function deriveKey(password, salt) {
+  const enc = new TextEncoder();
+  const keyMaterial = await crypto.subtle.importKey(
+    "raw", enc.encode(password), "PBKDF2", false, ["deriveKey"]
+  );
+  return crypto.subtle.deriveKey(
+    { name: "PBKDF2", salt: salt, iterations: 100000, hash: "SHA-256" },
+    keyMaterial,
+    { name: "AES-GCM", length: 256 },
+    false,
+    ["decrypt"]
+  );
+}
+
+async function closeENpopup() {
+  const content = document.getElementById('content');
+  //const html = new TextDecoder().decode(decrypted);
+  //content.innerHTML = html;
+  content.classList.add('visible');
+  content.classList.add('show');
+  //content.classList.remove('show')
+  //the next error I give up and let for Kimi.com
+  const vault = document.getElementById('vault');
+  vault.classList.add('unlocked');
+}
+
+async function unlock() {
+  const password = document.getElementById('key-input').value;
+  const error = document.getElementById('error');
+  const vault = document.getElementById('vault');
+  const content = document.getElementById('content');
+
+  try {
+    const salt = Uint8Array.from(atob(VAULT.salt), c => c.charCodeAt(0));
+    const nonce = Uint8Array.from(atob(VAULT.nonce), c => c.charCodeAt(0));
+    const ciphertext = Uint8Array.from(atob(VAULT.ciphertext), c => c.charCodeAt(0));
+
+    const key = await deriveKey(password, salt);
+    const decrypted = await crypto.subtle.decrypt(
+      { name: "AES-GCM", iv: nonce }, key, ciphertext
+    );
+
+    const html = new TextDecoder().decode(decrypted);
+
+    // Injeta o HTML descriptografado
+    content.innerHTML = html;
+    content.classList.add('visible');
+    vault.classList.add('unlocked');
+
+    // Executa scripts inline se houver
+    const scripts = content.querySelectorAll('script');
+    scripts.forEach(s => {
+      const ns = document.createElement('script');
+      ns.textContent = s.textContent;
+      document.head.appendChild(ns);
+      s.remove();
+    });
+
+  } catch (e) {
+    error.classList.add('show');
+    document.getElementById('key-input').value = '';
+    setTimeout(() => error.classList.remove('show'), 3000);
+  }
+}
+
+document.getElementById('key-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') unlock();
+});
+
+document.getElementById('key-input').focus();
+</script>-->
+
+</body>
+</html>

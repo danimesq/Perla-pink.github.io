@@ -1,0 +1,23 @@
+commit QmeCV4pMNYoCaZveGwHeFzZbgELfN7wjoFBw5JXmprY4Y7
+Branch: HEAD
+Signed-off by: danimesq.eth (0xDDfC2e10702d8A781727A34D83B3bb3CA94a3E91)
+Signature: 
+
+------------------------------
+
+Commit CID if including git's SHA1: QmdbHWrxUZfkRFaDeiw6WAdBdyiDcztixfHHfVJV3bSJ3m
+Commit CID if containing only file hashes: QmPJUaadJ9gXdgJ41zhjQfPZRLMRRVszbEeoKH9g9BZJA2
+
+------------------------------
+
+.gitmeta version: r8
+Local folder: /home/daniella/Desktop/tmp original SEP FILES/seagate/B/perlarosa-xyz/perla-pink/site
+Remote Name: origin
+Remote URL: https://github.com/Perla-pink/Perla-pink.github.io.git
+
+------------------------------
+
+chown -h 1000:1000 'index.html'
+chmod 0664 'index.html'
+/usr/bin/touch -hcmd "2026-05-29 02:20:49.7944002550 -0300" 'index.html'
+/usr/bin/touch -hcad "2026-05-31 21:40:49.4119627350 -0300" 'index.html'

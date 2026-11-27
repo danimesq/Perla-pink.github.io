@@ -1,82 +1,55 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!--<title>🔐 FrameworkJS — Acesso Restrito</title>-->
-<title>Perla.pink</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ff4fa3">
+<title>Perla.pink · ideias, projetos e memória</title>
+<meta name="description" content="Perla.pink: projetos, jornalismo, memória, liberdade de expressão e iniciativas independentes.">
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    background-color: #FFFAE1;
-    font-family: Roboto, -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
-    color: #333;
-    min-height: 100vh;
-  }
-  #vault {
-    position: fixed; inset: 0;
-    background: rgba(255, 250, 225, 0.98);
-    display: flex; align-items: center; justify-content: center;
-    z-index: 99999;
-    transition: opacity 0.8s ease, visibility 0.8s ease;
-  }
-  #vault.unlocked { opacity: 0; visibility: hidden; pointer-events: none; }
-  .vault-box {
-    border: 2px dotted #333;
-    background: #FFFAE1;
-    padding: 40px;
-    max-width: 480px;
-    width: 90%;
-    text-align: center;
-    box-shadow: 8px 8px 0px rgba(51,51,51,0.15);
-  }
-  .vault-box h2 { font-size: 28px; font-weight: 400; margin-bottom: 12px; }
-  .vault-box .subtitle { font-size: 14px; color: #666; margin-bottom: 28px; }
-  .vault-box input {
-    width: 100%; padding: 14px; font-size: 18px;
-    border: 1px dotted #333; background: transparent; color: #333;
-    font-family: inherit; text-align: center; letter-spacing: 4px;
-    outline: none; margin-bottom: 16px;
-  }
-  .vault-box input:focus { border: 2px solid #333; }
-  .vault-box button {
-    width: 100%; padding: 14px; font-size: 16px;
-    font-family: inherit; border: 1px dotted #333;
-    background: #333; color: #FFFAE1; cursor: pointer;
-  }
-  .vault-box button:hover { background: #555; }
-  .vault-box .error { margin-top: 12px; font-size: 13px; color: #c0392b; min-height: 20px; opacity: 0; transition: opacity 0.3s; }
-  .vault-box .error.show { opacity: 1; }
-  .vault-box .hint { margin-top: 20px; font-size: 12px; color: #888; font-style: italic; }
-  #content { display: none; }
-  #content.visible { display: block; animation: fadeIn 1s ease; }
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
-  .lock-icon { font-size: 48px; margin-bottom: 8px; }
-</style>
-<style>
-body {
-  background-color: #FFFAE1; /*#e8e6dc(claude's: https://github.com/Plasmmer/anthropic-skills/blob/main/skills/brand-guidelines/SKILL.md)*/
-}
-table, th, td {
-  border: 1px dotted #333;
-  border-collapse: collapse;
-}
-</style>
-<style>
-body { background-color: #FFFAE1; font-family: Roboto, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; color: #333; }
-table, th, td { border: 1px dotted #333; border-collapse: collapse; }
-td { padding: 12px; text-align: center; }
-h1 { text-align: center; font-weight: 400; font-size: 45px; }
+@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Patrick+Hand:wght@400;700&family=Space+Mono:wght@400;700&display=swap');
+:root{--paper:#fff4d8;--ink:#171717;--pink:#ff4fa3;--lime:#d7ff42;--blue:#66d9ff;--orange:#ff8b38}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font-family:'Patrick Hand',cursive;font-size:20px;line-height:1.4;background-image:radial-gradient(#17171718 1px,transparent 1px);background-size:13px 13px}
+a{color:inherit;text-decoration-thickness:2px;text-underline-offset:3px}a:hover{background:var(--lime)}
+header,.wrap{width:min(1080px,92vw);margin:auto}header{padding:26px 0 10px;display:flex;justify-content:space-between;align-items:center;gap:16px;font:13px 'Space Mono',monospace}
+.brand{font-weight:bold;text-decoration:none}.tag{border:2px solid var(--ink);padding:5px 10px;background:var(--lime);transform:rotate(2deg)}
+.hero{padding:48px 0 30px}.eyebrow,.mono{font:12px 'Space Mono',monospace;letter-spacing:.08em;text-transform:uppercase}
+h1,h2,h3{font-family:'Permanent Marker',cursive;font-weight:400;line-height:1.05}h1{font-size:clamp(54px,10vw,104px);margin:12px 0;text-shadow:4px 4px 0 var(--pink)}h2{font-size:clamp(30px,5vw,48px);margin:30px 0 14px}h3{font-size:25px;margin:0 0 10px}
+.lead{font-size:clamp(22px,3vw,29px);max-width:760px}.stamp{display:inline-block;background:var(--pink);border:3px solid var(--ink);padding:7px 13px;font-family:'Permanent Marker';transform:rotate(-3deg);box-shadow:5px 5px 0 var(--ink);margin:14px 0}
+.panel{border:3px solid var(--ink);padding:22px;background:#fffdf4;box-shadow:7px 7px 0 var(--ink);margin:24px 0}.pink{background:#ffd0e5}.lime{background:var(--lime)}.blue{background:#c8f2ff}
+.project-list{padding-left:24px}.project-list li{margin:10px 0}
+.manifesto-link{display:block;margin:24px 0;padding:22px;border:3px solid var(--ink);background:#ffd0e5;box-shadow:8px 8px 0 var(--ink);text-decoration:none;transform:rotate(-.5deg)}
+.manifesto-link h2{font-size:clamp(28px,5vw,48px);margin:0 0 12px}.cta{display:inline-block;padding:9px 15px;background:var(--lime);border:2px solid var(--ink);font-family:'Permanent Marker';box-shadow:4px 4px 0 var(--ink);margin-top:8px}
+.section-divider{margin:45px 0;border-top:3px dashed var(--ink);text-align:center;padding-top:12px;font:12px 'Space Mono',monospace}
+img{max-width:100%;height:auto}center{display:block;margin:20px auto}center img{object-fit:contain;max-width:min(100%,1000px);margin:6px}
+table,th,td{border:1px dotted var(--ink);border-collapse:collapse}td{padding:12px;text-align:center}
+blockquote.instagram-media{margin:20px auto!important}
+hr{border:0;border-top:3px dashed var(--ink);margin:38px 0}
+footer{margin-top:60px;padding:28px 4vw;background:var(--ink);color:var(--paper)}footer a{color:var(--lime)}
+@media(max-width:620px){header{align-items:flex-start;flex-direction:column}.panel{padding:17px}body{font-size:19px}}
 </style>
 </head>
 <body>
-<h1>Perla.pink</h1>
-<h2>Projetos que recomendamos:</h2>
-<div style="margin:24px auto;padding:18px;max-width:900px;border:3px solid #171717;background:#ffd0e5;box-shadow:6px 6px 0 #171717;text-align:center;">
-<h2 style="font-family:Impact,'Arial Black',sans-serif;font-size:clamp(28px,5vw,48px);">📣 MANIFESTO: TRÁFICO DE STALKING &amp; BULLYING</h2>
-<p style="font-size:20px;">Perseguição por interposição, bullying coordenado e a terceirização do assédio: um manifesto visual em estilo quadrinhos, rascunho e graffiti.</p>
-<a href="./manifesto.html" style="display:inline-block;padding:10px 16px;background:#d7ff42;border:2px solid #171717;color:#171717;font-weight:bold;text-decoration:none;">LER MANIFESTO ↗</a>
-</div>
+<header><a class="brand" href="./">PERLA.PINK ↗</a><span class="tag">PROJETOS · IDEIAS · MEMÓRIA</span></header>
+<main class="wrap">
+<section class="hero">
+<div class="eyebrow">Um espaço independente · caderno aberto</div>
+<h1>PERLA.PINK</h1>
+<p class="lead">Projetos, ideias, jornalismo, memória e ferramentas para preservar aquilo que merece continuar acessível.</p>
+<div class="stamp">PENSAR · CRIAR · PRESERVAR</div>
+</section>
+<a class="manifesto-link" href="./manifesto.html">
+<div class="eyebrow">Manifesto visual · quadrinhos · graffiti</div>
+<h2>📣 TRÁFICO DE STALKING &amp; BULLYING</h2>
+<p>Perseguição por interposição, bullying coordenado e a terceirização do assédio. Uma proposta para debate, conscientização e investigação baseada em evidências.</p>
+<span class="cta">LER O MANIFESTO ↗</span>
+</a>
+<section class="panel lime">
+<h2>Projetos que recomendamos</h2>
+<ul class="project-list">
+<li><a href="https://github.com/CoordinationsDAO/eternal-journalism" target="_blank" rel="noopener">Eternal Journalism</a> · armazenar matérias jornalísticas na blockchain para mitigar riscos de censura e apagamento.</li>
+</ul>
+</section>
 <ul>
 <li><a href="https://github.com/CoordinationsDAO/eternal-journalism" target="_blank">Eternal Journalism - armazenar matérias jornalísticas na blockchain, para mitigar risco de censura e apagamento</a></li>
 </ul>
@@ -203,7 +176,7 @@ h1 { text-align: center; font-weight: 400; font-size: 45px; }
 </div>-->
 
 <!--<div id="content"></div>-->
-<h1>----</h1>
+<div class="section-divider"><span>✦ PERLA.PINK · ARQUIVO VIVO ✦</span></div>
 <!--<span>Orders of the planets and artists on this table are subject to change at any time.</span>-->
 <center style="box-sizing:border-box;display:block;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:-webkit-center;"><h1 style="color:rgba(0, 0, 0, 0.87);font-family:Roboto, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, &quot;Helvetica Neue&quot;, Arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;;font-size:45px;font-weight:400;box-sizing:border-box;display:block;letter-spacing:normal;line-height:1.066667;margin-block-end:0px;margin-block-start:0px;margin-bottom:0px;margin-inline-end:0px;margin-inline-start:0px;margin-left:0px;margin-right:0px;margin-top:0px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">✨ Page created in Fri May 29 02:20:21 2026 -0300.</h1>
 <h4 style="color:rgba(0, 0, 0, 0.87);font-family:Roboto, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, &quot;Helvetica Neue&quot;, Arial, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;;font-size:20px;font-weight:500;box-sizing:border-box;display:block;letter-spacing:0.4px;line-height:1.4;margin-block-end:0px;margin-block-start:0px;margin-bottom:0px;margin-inline-end:0px;margin-inline-start:0px;margin-left:0px;margin-right:0px;margin-top:0px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">🗘 Last update in Fri May 29 02:20:21 2026 -0300.</h4></center>
@@ -284,5 +257,8 @@ document.getElementById('key-input').addEventListener('keydown', e => {
 document.getElementById('key-input').focus();
 </script>-->
 
+
+</main>
+<footer><div class="wrap"><h2>Memória também é infraestrutura.</h2><p>Perla.pink · ideias, projetos e arquivos independentes.</p><p class="mono"><a href="./manifesto.html">Manifesto: Tráfico de Stalking &amp; Bullying</a> · <a href="https://github.com/danimesq/Perla-pink.github.io">Código-fonte no GitHub</a></p></div></footer>
 </body>
 </html>
